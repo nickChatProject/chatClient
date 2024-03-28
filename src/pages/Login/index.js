@@ -1,9 +1,18 @@
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {useEffect} from "react";
 
 
 const Login = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const isLogin = localStorage.getItem("token")
+        if (isLogin) {
+            navigate('/')
+        }
+    },[])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const account = e.target[0].value;
@@ -16,8 +25,11 @@ const Login = () => {
                 password: password,
             }
             const response = await axios.post(authUrl, userInfo);
+            localStorage.setItem("token", response.data.token)
+            localStorage.setItem("id", response.data.user_id)
+            localStorage.setItem("picture", response.data.picture)
             console.log(response);
-            navigate("/home")
+            navigate("/")
         } catch (err) {
             console.log(err);
         }
