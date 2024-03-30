@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import {ChatContext} from "./ChatContext";
 
 
 const WebSocketContext = createContext();
@@ -6,17 +7,17 @@ const WebSocketContext = createContext();
 export const useWebSocket = () => useContext(WebSocketContext);
 
 export const WebSocketProvider = ({ children }) => {
-    //const [messages, setMessages] = useState([]);
     const [connectionStatus, setConnectionStatus] = useState('disconnected');
     const [ws, setWs] = useState(null);
+    const [isReceivedMessage, setIsReceivedMessage] = useState([])
+    const { currentUser } = useContext(ChatContext)
 
     useEffect(() => {
+
         connectWebSocket();
 
-        // return () => {
-        //     disconnectWebSocket();
-        // };
-    }, []);
+
+    }, [currentUser]);
 
     const connectWebSocket = () => {
 
@@ -27,13 +28,11 @@ export const WebSocketProvider = ({ children }) => {
             console.log("connect success")
             setConnectionStatus('connected');
             setWs(socket)
-            //startHeartbeat();
         };
 
         socket.onclose = () => {
             console.log("connect close")
             setConnectionStatus('disconnected');
-            //clearInterval(heartbeatInterval);
         };
 
         socket.onerror = (error) => {
@@ -41,8 +40,10 @@ export const WebSocketProvider = ({ children }) => {
         };
 
         socket.onmessage = (event) => {
-            const newMessage = event.data;
-            console.log(newMessage)
+            console.log(event.data)
+            setIsReceivedMessage(event.data)
+
+
         };
     };
 
@@ -73,7 +74,7 @@ export const WebSocketProvider = ({ children }) => {
     // };
 
     return (
-        <WebSocketContext.Provider value={{ connectionStatus, ws }}>
+        <WebSocketContext.Provider value={{ connectionStatus, ws, isReceivedMessage }}>
             {children}
         </WebSocketContext.Provider>
     );

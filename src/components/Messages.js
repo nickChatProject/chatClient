@@ -1,13 +1,13 @@
 import Message from "./Message";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {ChatContext} from "../context/ChatContext";
 import axios from "axios";
 import {useWebSocket} from "../context/WebSocketContext";
 
-const Messages = (props) => {
+const Messages = () => {
     //const [messages, setMessages] = useState([]);
-    //const { setMessages, messages } = useWebSocket();
-    const { currentFriend } = useContext(ChatContext);
+    const { isReceivedMessage } = useWebSocket();
+    const { currentFriend, messages, setMessages } = useContext(ChatContext);
 
     useEffect(() => {
         const url = process.env.REACT_APP_API_URL + "chat_history/"
@@ -17,19 +17,21 @@ const Messages = (props) => {
         axios.post(url, friendID, {
             headers:{"Authorization": localStorage.getItem("token")}
         }).then(res=> {
-            props.setMessages(res.data)
+            setMessages(res.data)
         }).catch(err=> {
             console.error('Error fetching data:', err);
         })
 
 
-    }, [currentFriend.id]);
+    }, [currentFriend.id, isReceivedMessage]);
 
-    console.log(props.messages)
+
+
+    console.log(isReceivedMessage)
 
     return (
         <div className="messages">
-            {props.messages.map((m) => (
+            {messages.map((m) => (
                 <Message message={m} key={m.id} />
             ))}
         </div>

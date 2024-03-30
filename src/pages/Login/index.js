@@ -1,10 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
+import {ChatContext} from "../../context/ChatContext";
 
 
 const Login = () => {
     const navigate = useNavigate();
+    const { setCurrentUser } = useContext(ChatContext)
 
     useEffect(() => {
         const isLogin = localStorage.getItem("token")
@@ -28,6 +30,7 @@ const Login = () => {
             localStorage.setItem("token", response.data.token)
             localStorage.setItem("id", response.data.user_id)
             localStorage.setItem("picture", response.data.picture)
+            setCurrentUser(response.data.user_id)
             console.log(response);
             navigate("/")
         } catch (err) {

@@ -4,9 +4,9 @@ import {useContext, useState} from "react";
 import {ChatContext} from "../context/ChatContext";
 import {useWebSocket} from "../context/WebSocketContext";
 import { v4 as uuidv4 } from 'uuid';
-const Input = (props) => {
+const Input = () => {
     const [text, setText] = useState("");
-    const { currentFriend } = useContext(ChatContext);
+    const { currentFriend, messages, setMessages, friends, setFriends } = useContext(ChatContext);
     const { ws } = useWebSocket();
 
     const handleSend = () =>{
@@ -24,15 +24,18 @@ const Input = (props) => {
                 "receiver_id": currentFriend.id,
                 "content": text
             }
-            props.setMessages([
-                ...props.messages,
+            setMessages([
+                ...messages,
                 message
             ]);
+            const newFriends = friends
+            const newFriendsIndx = newFriends.findIndex(array => array[0] === currentFriend.id);
+            newFriends[newFriendsIndx][3] = text
+            setFriends(newFriends)
         } else {
             console.error('WebSocket not connected.');
         }
         setText("");
-        window.location.reload();
     }
     return (
         <div className="input">

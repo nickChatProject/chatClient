@@ -1,11 +1,13 @@
 import DefaultUserIcon from "../img/defaultUserIcon.png"
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import axios from "axios";
 import {ChatContext} from "../context/ChatContext";
+import {useWebSocket} from "../context/WebSocketContext";
 const Chats = () => {
-    const [friends, setFriends] = useState([]);
+    //const [friends, setFriends] = useState([]);
     const uid = localStorage.getItem("id")
-    const { getFriendInfo, currentFriend } = useContext(ChatContext)
+    const { isReceivedMessage } = useWebSocket()
+    const { getFriendInfo, currentFriend, friends, setFriends} = useContext(ChatContext)
     useEffect(() => {
         const getChats = () => {
 
@@ -24,7 +26,7 @@ const Chats = () => {
         };
 
         uid && getChats();
-    }, [uid]);
+    }, [uid, isReceivedMessage]);
     const handleSelect = (array) => {
 
         getFriendInfo(array)
@@ -35,7 +37,7 @@ const Chats = () => {
             {friends?.map((friend) => (
                 <div className="userChat"
                      key={friend[0].toString()}
-                     onClick={() => handleSelect(friend)}
+                     onClick={() => handleSelect(friend.slice(0, 3))}
                 >
                     <img src={friend[2]?process.env.REACT_APP_API_URL + "image/?image=" + friend[2]: DefaultUserIcon} alt="" />
                     <div className="userChatInfo">
