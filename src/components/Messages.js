@@ -18,6 +18,8 @@ const Messages = () => {
             headers:{"Authorization": localStorage.getItem("token")}
         }).then(res=> {
             setMessages(res.data)
+            console.log("before update messages:")
+            console.log(res.data)
         }).catch(err=> {
             console.error('Error fetching data:', err);
         })

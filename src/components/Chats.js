@@ -14,9 +14,10 @@ const Chats = () => {
             const url = process.env.REACT_APP_API_URL + "friends/"
             const unsub = axios.get(url, {
                 headers:{"Authorization": localStorage.getItem("token")}
-            }).then(
-                res=> setFriends(res.data.friends)
-            ).catch(err => {
+            }).then( res =>{
+                setFriends(res.data.friends)
+                console.log(res.data.friends)
+            }).catch(err => {
                 console.error('Error fetching data:', err);
             })
 
@@ -42,7 +43,12 @@ const Chats = () => {
                     <img src={friend[2]?process.env.REACT_APP_API_URL + "image/?image=" + friend[2]: DefaultUserIcon} alt="" />
                     <div className="userChatInfo">
                         <span>{friend[1]}</span>
-                        <p>{friend[3].length > 20? friend[3].slice(0, 20) + "...": friend[3]}</p>
+                        {friend[6] === localStorage.getItem("id") ?
+                            friend[4] === "file" ? <p>File has been sent</p> :
+                                <p>{friend[3].length > 20 ? friend[3].slice(0, 20) + "..." : friend[3]}</p>:
+                            friend[4] === "file" ? <p>{friend[1] + " sent you a file"}</p> :
+                                <p>{friend[3].length > 20 ? friend[3].slice(0, 20) + "..." : friend[3]}</p>
+                        }
                     </div>
                 </div>
             ))}
