@@ -17,16 +17,22 @@ const Message = ({ message }) => {
         ref.current?.scrollIntoView({ behavior: "smooth" });
     }, [message]);
 
-    const handleDownload = (fileId) => {
-        const url = process.env.REACT_APP_API_URL + "file/?file=" + fileId
+    const handleDownload = (object) => {
+        const url = process.env.REACT_APP_API_URL + "file/?file=" + object.file_id
         console.log(process.env.REACT_APP_API_URL + "image/?image=" + currentFriend.picture)
-        // axios.get(url,{
-        //     headers:{"Authorization": localStorage.getItem("token")}
-        // }).then(res=> {
-        //     console.log("download success")
-        // }).catch(err=> {
-        //     console.log(err)
-        // })
+        axios.get(url,
+            {headers:{"Authorization": localStorage.getItem("token")},
+                responseType: 'blob',
+        }).then(res=> {
+            const blob = new Blob([res.data], { type: res.headers['content-type'] });
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = object.file_name
+            link.click();
+            document.body.removeChild(link);
+        }).catch(err=> {
+            console.log("download file fail", err)
+        })
     }
     return (
         <div
@@ -53,9 +59,9 @@ const Message = ({ message }) => {
                     <div>
                         {message.sender_id.toString() === localStorage.getItem("id") ?
                             <img src={FileBlack} alt=""
-                                 onClick={(event) => handleDownload(JSON.parse(message.content).file_id)}/> :
+                                 onClick={(event) => handleDownload(JSON.parse(message.content))}/> :
                             <img src={FileWhite} alt=""
-                                 onClick={(event) => handleDownload(JSON.parse(message.content).file_id)}/>
+                                 onClick={(event) => handleDownload(JSON.parse(message.content))}/>
                         }
                         <p>{JSON.parse(message.content).file_name}</p>
                     </div>

@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import "./style.scss"
 import Home from "./pages/Home";
 import ProtectedRoute from "./context/ProtectRoute";
-import {WebSocketProvider} from "./context/WebSocketContext";
 
 
 const App = () => {

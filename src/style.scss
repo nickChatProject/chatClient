@@ -232,6 +232,17 @@
         }
       }
     }
+    .messageDefaultPage {
+      flex: 3;
+      background-color: #ddddf7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      p {
+        font-size: 40px;
+        color: gray;
+      }
+    }
     .chat {
       flex: 3;
 

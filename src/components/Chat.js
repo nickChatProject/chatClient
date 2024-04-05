@@ -5,10 +5,10 @@ import {useContext} from "react";
 import {ChatContext} from "../context/ChatContext";
 
 
-
 const Chat = () => {
-    const { currentFriend } = useContext(ChatContext)
+    const {currentFriend} = useContext(ChatContext)
     return (
+
         <div className="chat">
             <div className="chatInfo">
                 <span>{currentFriend.name}</span>
@@ -16,10 +16,9 @@ const Chat = () => {
                     <img src={More} alt=""/>
                 </div>
             </div>
-            <Messages />
-            <Input />
+            <Messages/>
+            <Input/>
         </div>
-
     )
 }
 export default Chat
