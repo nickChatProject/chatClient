@@ -8,6 +8,7 @@ export const ChatContextProvider = ({ children }) => {
     const [friends, setFriends] = useState([])
     const [currentUser, setCurrentUser] = useState(null)
     const [file, setFile] = useState(null);
+    const [currentComponent, setCurrentComponent] = useState('sidebar');
 
 
     const getFriendInfo = (array) => {
@@ -26,7 +27,7 @@ export const ChatContextProvider = ({ children }) => {
 
     return (
         <ChatContext.Provider value={{ currentFriend, getFriendInfo, messages, setMessages, friends,
-            setFriends, currentUser, setCurrentUser, file, setFile }}>
+            setFriends, currentUser, setCurrentUser, file, setFile, currentComponent, setCurrentComponent }}>
             {children}
         </ChatContext.Provider>
     );

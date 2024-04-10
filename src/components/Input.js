@@ -1,4 +1,3 @@
-import Img from "../img/img.png";
 import Attach from "../img/attach.png";
 import {useContext, useState} from "react";
 import {ChatContext} from "../context/ChatContext";
@@ -51,8 +50,7 @@ const Input = () => {
         const formData = new FormData();
         formData.append("files", file, fileName);
         const url = process.env.REACT_APP_API_URL + "file/"
-        axios
-            .post(url, formData, {
+        axios.post(url, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     "Authorization": localStorage.getItem("token")
