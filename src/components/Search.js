@@ -1,11 +1,12 @@
 import Navbar from "./Navbar";
 import SearchUser from "./SearchUser";
 import SearchBar from "./SearchBar";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {ChatContext} from "../context/ChatContext";
 
 
 const Search = () => {
-    const [users, setUsers] = useState([])
+    const { users, setUsers } = useContext(ChatContext)
     return (
         <div className="search">
             <Navbar />

@@ -11,9 +11,11 @@ export const WebSocketProvider = ({ children }) => {
     const [ws, setWs] = useState(null);
     const [isReceivedMessage, setIsReceivedMessage] = useState([])
     const { currentUser } = useContext(ChatContext)
+    const [isReceivedFriendRequest, setIsReceivedFriendRequest] = useState([])
+
 
     useEffect(() => {
-
+        console.log(currentUser)
         connectWebSocket();
 
 
@@ -42,7 +44,9 @@ export const WebSocketProvider = ({ children }) => {
         socket.onmessage = (event) => {
             console.log(event.data)
             setIsReceivedMessage(event.data)
-
+            if (event.data.type === "friend_request") {
+                setIsReceivedFriendRequest(event.data)
+            }
 
         };
     };
@@ -74,7 +78,8 @@ export const WebSocketProvider = ({ children }) => {
     // };
 
     return (
-        <WebSocketContext.Provider value={{ connectionStatus, ws, isReceivedMessage }}>
+        <WebSocketContext.Provider value={{ connectionStatus, ws, isReceivedMessage,isReceivedFriendRequest,
+            setIsReceivedFriendRequest }}>
             {children}
         </WebSocketContext.Provider>
     );

@@ -16,6 +16,7 @@ const Login = () => {
     },[])
 
     const handleSubmit = async (e) => {
+        // prevent page reload
         e.preventDefault();
         const account = e.target[0].value;
         const password = e.target[1].value;

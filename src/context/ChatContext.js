@@ -9,6 +9,10 @@ export const ChatContextProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null)
     const [file, setFile] = useState(null);
     const [currentComponent, setCurrentComponent] = useState('sidebar');
+    const [isPopupOpen, setPopupOpen] = useState(false);
+    const [notices, setNotices] = useState([])
+    const [users, setUsers] = useState([])
+    const [isClosed, setIsClosed] = useState(true)
 
 
     const getFriendInfo = (array) => {
@@ -22,12 +26,12 @@ export const ChatContextProvider = ({ children }) => {
             "picture": picture
         }
         setCurrentFriend(friendInfo)
-        console.log(currentFriend)
     }
 
     return (
         <ChatContext.Provider value={{ currentFriend, getFriendInfo, messages, setMessages, friends,
-            setFriends, currentUser, setCurrentUser, file, setFile, currentComponent, setCurrentComponent }}>
+            setFriends, currentUser, setCurrentUser, file, setFile, currentComponent, setCurrentComponent,
+            isPopupOpen, setPopupOpen, notices, setNotices, users, setUsers, isClosed, setIsClosed }}>
             {children}
         </ChatContext.Provider>
     );

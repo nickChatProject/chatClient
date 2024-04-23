@@ -35,7 +35,7 @@ const Chats = () => {
     }
     return (
         <div className="chats">
-            {friends?.map((friend) => (
+            {friends?.sort((a,b)=>b[5] - a[5]).map((friend) => (
                 <div className="userChat"
                      key={friend[0].toString()}
                      onClick={() => handleSelect(friend.slice(0, 3))}
