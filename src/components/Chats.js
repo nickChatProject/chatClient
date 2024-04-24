@@ -3,11 +3,13 @@ import {useContext, useEffect} from "react";
 import axios from "axios";
 import {ChatContext} from "../context/ChatContext";
 import {useWebSocket} from "../context/WebSocketContext";
+import {useNavigate} from "react-router-dom";
 const Chats = () => {
     //const [friends, setFriends] = useState([]);
     const uid = localStorage.getItem("id")
     const { isReceivedMessage } = useWebSocket()
-    const { getFriendInfo, currentFriend, friends, setFriends} = useContext(ChatContext)
+    const { getFriendInfo, currentFriend, friends, setFriends, handleTokenExpire} = useContext(ChatContext)
+    const navigate = useNavigate();
     useEffect(() => {
         const getChats = () => {
 
@@ -19,6 +21,10 @@ const Chats = () => {
                 console.log(res.data.friends)
             }).catch(err => {
                 console.error('Error fetching data:', err);
+                const isConfirm = handleTokenExpire(err.response.data.error_msg)
+                if (isConfirm) {
+                    navigate('login')
+                }
             })
 
             return () => {

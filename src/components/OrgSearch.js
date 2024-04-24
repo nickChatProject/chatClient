@@ -3,8 +3,10 @@ import axios from "axios";
 import {useContext} from "react";
 import {ChatContext} from "../context/ChatContext";
 import {useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
 const OrgSearch = () => {
-    const { setUsers, setIsClosed } = useContext(ChatContext)
+    const { setUsers, setIsClosed, handleTokenExpire } = useContext(ChatContext)
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -29,6 +31,10 @@ const OrgSearch = () => {
         ).catch(
             err => {
                 console.error('Error fetching data:', err);
+                const isConfirm = handleTokenExpire(err.response.data.error_msg)
+                if (isConfirm) {
+                    navigate('login')
+                }
             }
         )
     }
@@ -50,14 +56,14 @@ const OrgSearch = () => {
                         type="text"
                         placeholder={errors.company?errors.company.message:"company"}
                         {...register('company', {
-                            required: 'Must not be empty',
+                            required: 'Must not be empty!',
                         })}
                     />
                     <input
                         type="text"
                         placeholder={errors.department?errors.department.message:"department"}
                         {...register('department', {
-                            required: 'Must not be empty',
+                            required: 'Must not be empty!',
                         })}
                     />
                     <button>Search</button>

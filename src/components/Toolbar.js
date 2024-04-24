@@ -10,7 +10,7 @@ import axios from "axios";
 
 
 const Toolbar = () => {
-    const { setCurrentComponent } = useContext(ChatContext)
+    const { setCurrentComponent, handleTokenExpire } = useContext(ChatContext)
     const navigate = useNavigate();
     const [avatar, setAvatar] = useState(null)
     const handleLogout = () => {
@@ -43,6 +43,10 @@ const Toolbar = () => {
         }).catch((error) => {
             // handle errors
             console.log(error);
+            const isConfirm = handleTokenExpire(error.response.data.error_msg)
+            if (isConfirm) {
+                navigate('login')
+            }
         });
 
     }

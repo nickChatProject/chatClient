@@ -3,10 +3,12 @@ import {useContext, useState} from "react";
 
 import axios from "axios";
 import {ChatContext} from "../context/ChatContext";
+import {useNavigate} from "react-router-dom";
 const SearchBar = (props) => {
     const [email, setEmail] = useState("")
     const [errorMessage, setErrorMessage] = useState("");
-    const { setIsClosed }  = useContext(ChatContext)
+    const navigate = useNavigate();
+    const { setIsClosed, handleTokenExpire }  = useContext(ChatContext)
 
 
     const handleSearch = () => {
@@ -34,6 +36,10 @@ const SearchBar = (props) => {
         ).catch(
             err => {
                 console.error('Error fetching data:', err);
+                const isConfirm = handleTokenExpire(err.response.data.error_msg)
+                if (isConfirm) {
+                    navigate('login')
+                }
             }
         )
         setEmail("")

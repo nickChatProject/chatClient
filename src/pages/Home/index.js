@@ -1,7 +1,7 @@
 import Sidebar from "../../components/Sidebar";
 import Chat from "../../components/Chat";
 import Toolbar from "../../components/Toolbar";
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {ChatContext} from "../../context/ChatContext";
 import MessageDefaultPage from "../../components/MessageDefaultPage";
 import Search from "../../components/Search";

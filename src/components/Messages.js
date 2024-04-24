@@ -3,11 +3,13 @@ import {useContext, useEffect} from "react";
 import {ChatContext} from "../context/ChatContext";
 import axios from "axios";
 import {useWebSocket} from "../context/WebSocketContext";
+import {useNavigate} from "react-router-dom";
 
 const Messages = () => {
     //const [messages, setMessages] = useState([]);
     const { isReceivedMessage } = useWebSocket();
-    const { currentFriend, messages, setMessages } = useContext(ChatContext);
+    const navigate = useNavigate();
+    const { currentFriend, messages, setMessages, handleTokenExpire } = useContext(ChatContext);
 
     useEffect(() => {
         const url = process.env.REACT_APP_API_URL + "chat_history/"
@@ -22,6 +24,10 @@ const Messages = () => {
             console.log(res.data)
         }).catch(err=> {
             console.error('Error fetching data:', err);
+            const isConfirm = handleTokenExpire(err.response.data.error_msg)
+            if (isConfirm) {
+                navigate('login')
+            }
         })
 
 

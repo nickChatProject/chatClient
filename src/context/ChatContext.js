@@ -28,10 +28,24 @@ export const ChatContextProvider = ({ children }) => {
         setCurrentFriend(friendInfo)
     }
 
+    const handleTokenExpire = (errMsg) => {
+        if (errMsg === "User does not login or token is expired.") {
+            if (window.confirm("Token is expired! Please login again.")) {
+                localStorage.removeItem("id")
+                localStorage.removeItem("token")
+                localStorage.removeItem("picture")
+                return true
+            } else {
+                return false
+            }
+        }
+
+    }
+
     return (
         <ChatContext.Provider value={{ currentFriend, getFriendInfo, messages, setMessages, friends,
             setFriends, currentUser, setCurrentUser, file, setFile, currentComponent, setCurrentComponent,
-            isPopupOpen, setPopupOpen, notices, setNotices, users, setUsers, isClosed, setIsClosed }}>
+            isPopupOpen, setPopupOpen, notices, setNotices, users, setUsers, isClosed, setIsClosed, handleTokenExpire }}>
             {children}
         </ChatContext.Provider>
     );

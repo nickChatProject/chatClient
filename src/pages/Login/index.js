@@ -2,11 +2,17 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useContext, useEffect} from "react";
 import {ChatContext} from "../../context/ChatContext";
+import {useForm} from "react-hook-form";
 
 
 const Login = () => {
     const navigate = useNavigate();
     const { setCurrentUser } = useContext(ChatContext)
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+    } = useForm();
 
     useEffect(() => {
         const isLogin = localStorage.getItem("token")
@@ -15,11 +21,10 @@ const Login = () => {
         }
     },[])
 
-    const handleSubmit = async (e) => {
-        // prevent page reload
-        e.preventDefault();
-        const account = e.target[0].value;
-        const password = e.target[1].value;
+    const onSubmit = async (data) => {
+
+        const account = data.account;
+        const password = data.password;
         const authUrl = process.env.REACT_APP_API_URL + "user_login/"
 
         try {
@@ -43,9 +48,21 @@ const Login = () => {
             <div className="formWrapper">
                 <span className="logo">chatApp</span>
                 <span className="title">Login</span>
-                <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="account"/>
-                    <input type="password" placeholder="password"/>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <input
+                        type="text"
+                        placeholder={errors.account?errors.account.message:"account"}
+                        {...register('account', {
+                            required: 'Must not be empty!',
+                        })}
+                    />
+                    <input
+                        type="password"
+                        placeholder={errors.password?errors.password.message:"password"}
+                        {...register('password', {
+                            required: 'Must not be empty!',
+                        })}
+                    />
                     <button>Sign in</button>
                 </form>
                 <p>Forget password?</p>

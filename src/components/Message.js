@@ -4,10 +4,12 @@ import DefaultUserIcon from "../img/defaultUserIcon.png";
 import FileWhite from "../img/file.png";
 import FileBlack from "../img/file_black.png";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 const Message = ({ message }) => {
-    const { currentFriend } = useContext(ChatContext);
+    const { currentFriend, handleTokenExpire } = useContext(ChatContext);
+    const navigate = useNavigate();
     const ownerMsg = "message"
     const friendMsg = "message owner"
 
@@ -32,6 +34,10 @@ const Message = ({ message }) => {
             document.body.removeChild(link);
         }).catch(err=> {
             console.log("download file fail", err)
+            const isConfirm = handleTokenExpire(err.response.data.error_msg)
+            if (isConfirm) {
+                navigate('login')
+            }
         })
     }
     return (
@@ -48,7 +54,7 @@ const Message = ({ message }) => {
                     }
                     alt=""
                 />
-                <span>just now</span>
+                {/*<span>{message.created_at}</span>*/}
             </div>
 
             {message.type === "message" ?

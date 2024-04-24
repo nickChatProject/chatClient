@@ -3,12 +3,14 @@ import DefaultUserIcon from "../img/defaultUserIcon.png";
 import axios from "axios";
 import {useWebSocket} from "../context/WebSocketContext";
 import {ChatContext} from "../context/ChatContext";
+import {useNavigate} from "react-router-dom";
 
 const Notice = ({notice}) => {
+    const navigate = useNavigate();
     const [isAccepted, setIsAccepted] = useState(false)
     const [isReplied, setIsReplied] = useState(false)
     const { ws } = useWebSocket();
-    const { friends, setFriends} = useContext(ChatContext)
+    const { friends, setFriends, handleTokenExpire } = useContext(ChatContext)
 
     const sendWebSocket = (message) => {
         if (ws && ws.readyState === WebSocket.OPEN) {
@@ -47,6 +49,10 @@ const Notice = ({notice}) => {
                 console.log(res.data)
         }).catch(err=> {
             console.error('Error fetching data:', err);
+            const isConfirm = handleTokenExpire(err.response.data.error_msg)
+            if (isConfirm) {
+                navigate('login')
+            }
         })
         const message = {
             "type": "friend_accept",
@@ -74,6 +80,10 @@ const Notice = ({notice}) => {
                 console.log(res.data)
             }).catch(err=> {
             console.error('Error fetching data:', err);
+            const isConfirm = handleTokenExpire(err.response.data.error_msg)
+            if (isConfirm) {
+                navigate('login')
+            }
         })
 
     }

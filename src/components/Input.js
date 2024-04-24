@@ -4,11 +4,13 @@ import {ChatContext} from "../context/ChatContext";
 import {useWebSocket} from "../context/WebSocketContext";
 import { v4 as uuidv4 } from 'uuid';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 const Input = () => {
     const [text, setText] = useState("");
     //const [file, setFile] = useState(null);
-    const { currentFriend, messages, setMessages, friends, setFriends, file, setFile } = useContext(ChatContext);
+    const { currentFriend, messages, setMessages, friends, setFriends, file, setFile, handleTokenExpire } = useContext(ChatContext);
     const { ws } = useWebSocket();
+    const navigate = useNavigate();
 
     const sendData = (type) => {
         return {
@@ -63,6 +65,10 @@ const Input = () => {
             .catch((error) => {
                 // handle errors
                 console.log(error);
+                const isConfirm = handleTokenExpire(error.response.data.error_msg)
+                if (isConfirm) {
+                    navigate('login')
+                }
             });
 
     }
