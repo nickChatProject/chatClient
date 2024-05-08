@@ -362,58 +362,67 @@
         }
       }
 
-      .userList {
-        padding: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: white;
-        cursor: pointer;
+      .users {
+        height: 100%;
+        overflow: scroll;
 
-        &:hover {
-          background-color: #2f2d52;
-        }
-
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .userInfo {
-          height: 50px;
+        .userList {
+          padding: 20px;
           display: flex;
-          flex-direction: row;
-          padding: 10px;
+          align-items: center;
+          gap: 10px;
+          color: white;
+          cursor: pointer;
 
-          .userName {
-            span {
-              font-size: 18px;
-              font-weight: 500;
-            }
-            p {
-              font-size: 14px;
-              color: lightgray;
-            }
-          }
-          .send {
-            margin-left: 40px;
-            align-items: center;
-            button {
-              cursor: pointer;
-              border-radius: 5px 5px 5px 5px;
-            }
-            p {
-              font-size: 12px;
-              color: cadetblue;
-            }
+
+          &:hover {
+            background-color: #2f2d52;
           }
 
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          .userInfo {
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            padding: 10px;
+
+            .userName {
+              span {
+                font-size: 18px;
+                font-weight: 500;
+              }
+              p {
+                font-size: 14px;
+                color: lightgray;
+              }
+            }
+            .send {
+              margin-left: 40px;
+              align-items: center;
+              button {
+                cursor: pointer;
+                border-radius: 5px 5px 5px 5px;
+              }
+              p {
+                font-size: 12px;
+                color: cadetblue;
+              }
+            }
 
 
+
+          }
         }
       }
+
+
+
 
     }
     .sidebar {
@@ -441,39 +450,43 @@
       }
 
 
+      .chats {
+        height: 100%;
+        overflow: scroll;
+        .userChat {
+          padding: 20px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: white;
+          cursor: pointer;
 
-      .userChat {
-        padding: 20px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: white;
-        cursor: pointer;
-
-        &:hover {
-          background-color: #2f2d52;
-        }
-
-        img {
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .userChatInfo {
-          height: 50px;
-          span {
-            font-size: 18px;
-            font-weight: 500;
-          }
-          p {
-            font-size: 14px;
-            color: lightgray;
+          &:hover {
+            background-color: #2f2d52;
           }
 
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          .userChatInfo {
+            height: 50px;
+            span {
+              font-size: 18px;
+              font-weight: 500;
+            }
+            p {
+              font-size: 14px;
+              color: lightgray;
+            }
+
+          }
         }
       }
+
     }
     .default {
       flex: 3;
