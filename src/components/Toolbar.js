@@ -19,15 +19,15 @@ const Toolbar = () => {
         localStorage.removeItem("picture")
         navigate('login')
     }
-    const handleAvatar = (img) => {
-        const file = img;
+    const handleAvatar = (avatar) => {
+        const file = avatar;
         const reader = new FileReader();
         reader.onload = () => {
             setAvatar(reader.result);
         };
         reader.readAsDataURL(file);
-        setAvatar(img)
-        const imgName = uuidv4() + "." +img.name.split(".")[1]
+        setAvatar(avatar)
+        const imgName = uuidv4() + "." + avatar.name.split(".")[1]
         const formData = new FormData();
         formData.append("files", file, imgName);
         const url = process.env.REACT_APP_API_URL + "avatar/"
@@ -48,27 +48,32 @@ const Toolbar = () => {
                 navigate('login')
             }
         });
+        setAvatar(null)
 
     }
+    const handleImageClick = () => {
+        document.getElementById('avatar').click();
+    };
     return (
         <div className="toolbar">
             <div className="avatar">
                 <input
                     type="file"
                     style={{display: "none"}}
-                    id="file"
+                    id="avatar"
+                    name="avatar"
                     accept="image/png"
                     onChange={(e) => {
                         handleAvatar(e.target.files[0])
                     }}
                 />
-                <label htmlFor="file">
-                    <img src={avatar?
-                        avatar:
-                        localStorage.getItem("picture")?
-                            process.env.REACT_APP_API_URL + "image/?image=" + localStorage.getItem("picture"):
-                            DefaultUserIcon} alt=""/>
-                </label>
+
+                <img src={avatar?
+                    avatar:
+                    localStorage.getItem("picture")?
+                        process.env.REACT_APP_API_URL + "image/?image=" + localStorage.getItem("picture"):
+                        DefaultUserIcon} alt="" onClick={handleImageClick} />
+
             </div>
             <div className="toolIcons">
                 <img src={MsgIcon} alt="" onClick={() => setCurrentComponent('sidebar')}/>

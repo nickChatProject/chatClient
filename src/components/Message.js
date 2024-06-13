@@ -30,12 +30,17 @@ const Message = ({ message }) => {
             const link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
             link.download = object.file_name
+            document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         }).catch(err=> {
             console.log("download file fail", err)
-            const isConfirm = handleTokenExpire(err.response.data.error_msg)
-            if (isConfirm) {
+            console.log(typeof err)
+            // const isConfirm = handleTokenExpire(err.response.data.error_msg)
+            // if (isConfirm) {
+            //     navigate('login')
+            // }
+            if (err.response && handleTokenExpire(err.response.data.error_msg)) {
                 navigate('login')
             }
         })

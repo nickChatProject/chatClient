@@ -7,7 +7,6 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 const Input = () => {
     const [text, setText] = useState("");
-    //const [file, setFile] = useState(null);
     const { currentFriend, messages, setMessages, friends, setFriends, file, setFile, handleTokenExpire } = useContext(ChatContext);
     const { ws } = useWebSocket();
     const navigate = useNavigate();
@@ -104,6 +103,8 @@ const Input = () => {
             setText("");
         }
 
+
+
         // const sendMessage = {
         //     "type": "message",
         //     "sender_id": parseInt(localStorage.getItem("id")),
@@ -134,8 +135,11 @@ const Input = () => {
         // }
         // setText("");
     }
+    const handleFileClick = () => {
+        document.getElementById('file').click();
+    };
     return (
-        <div className="input">
+        <div className="inputs">
             <input
                 type="text"
                 placeholder="Type something..."
@@ -148,14 +152,15 @@ const Input = () => {
                     type="file"
                     style={{display: "none"}}
                     id="file"
+                    name="file"
                     onChange={(e) => {
                         setFile(e.target.files[0])
                         setText(e.target.files[0].name)
                     }}
                 />
-                <label htmlFor="file">
-                    <img src={Attach} alt=""/>
-                </label>
+
+                <img src={Attach} alt="" onClick={handleFileClick}/>
+
                 <button onClick={handleSend}>Send</button>
             </div>
         </div>
